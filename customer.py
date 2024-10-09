@@ -33,8 +33,6 @@ class Customer:
         Returns:
             the statement as a String
         """
-        total_amount = 0   # total rental charges
-        frequent_renter_points = 0
         # the .format method substitutes actual values into the fmt string
         statement = f"Rental Report for {self.name}\n\n"
         header_fmt = "{:40s}  {:6s} {:6s}\n"
@@ -43,8 +41,6 @@ class Customer:
         
         for rental in self.rentals:
             # compute the frequent renter points based on movie price code
-            frequent_renter_points += rental.rental_points()
-            #  add a detail line to statement
             statement += rental_fmt.format(
                             rental.get_movie().get_title(), 
                             rental.get_days_rented(), 
@@ -52,12 +48,12 @@ class Customer:
         
         # Compute total charge using the new method
         total_charge = self.compute_total_charge()
-
+        total_rental_points = self.compute_total_rental_points()
         # footer: summary of charges
         statement += "\n"
         statement += "{:40s}  {:6s} {:6.2f}\n".format(
                        "Total Charges", "", total_charge)
-        statement += "Frequent Renter Points earned: {}\n".format(frequent_renter_points)
+        statement += "Frequent Renter Points earned: {}\n".format(total_rental_points)
 
         return statement
 
@@ -65,3 +61,9 @@ class Customer:
         """Compute the total charge for all rentals."""
         total_charge = sum(rental.get_price() for rental in self.rentals)
         return total_charge
+    
+    def compute_total_rental_points(self):
+        """Compute the total frequent renter points for all rentals."""
+        total_points = sum(rental.rental_points() for rental in self.rentals)
+        return total_points
+    
