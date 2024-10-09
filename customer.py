@@ -49,14 +49,19 @@ class Customer:
                             rental.get_movie().get_title(), 
                             rental.get_days_rented(), 
                             rental.get_price())
-            # and accumulate activity
-            total_amount += rental.get_price()
+        
+        # Compute total charge using the new method
+        total_charge = self.compute_total_charge()
 
         # footer: summary of charges
         statement += "\n"
         statement += "{:40s}  {:6s} {:6.2f}\n".format(
-                       "Total Charges", "", total_amount)
+                       "Total Charges", "", total_charge)
         statement += "Frequent Renter Points earned: {}\n".format(frequent_renter_points)
 
         return statement
-    
+
+    def compute_total_charge(self):
+        """Compute the total charge for all rentals."""
+        total_charge = sum(rental.get_price() for rental in self.rentals)
+        return total_charge
