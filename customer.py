@@ -43,7 +43,7 @@ class Customer:
         
         for rental in self.rentals:
             # compute rental charge
-            amount = self.get_price(rental)
+            amount = rental.get_price()
             # compute the frequent renter points based on movie price code
             if rental.get_movie().get_price_code() == Movie.NEW_RELEASE:
                 # New release earns 1 point per day rented
@@ -67,31 +67,3 @@ class Customer:
 
         return statement
     
-    def get_price(self, rental):
-        """Calculate the price of a rental based on the movie type and days rented.
-
-        Args:
-            rental: The rental object for which to calculate the price.
-
-        Returns:
-            The price of the rental as a float.
-        """
-        amount = 0
-        if rental.get_movie().get_price_code() == Movie.REGULAR:
-            # Two days for $2, additional days 1.50 per day.
-            amount = 2.0
-            if rental.get_days_rented() > 2:
-                amount += 1.5 * (rental.get_days_rented() - 2)
-        elif rental.get_movie().get_price_code() == Movie.CHILDRENS:
-            # Three days for $1.50, additional days 1.50 per day.
-            amount = 1.5
-            if rental.get_days_rented() > 3:
-                amount += 1.5 * (rental.get_days_rented() - 3)
-        elif rental.get_movie().get_price_code() == Movie.NEW_RELEASE:
-            # Straight $3 per day charge
-            amount = 3 * rental.get_days_rented()
-        else:
-            log = logging.getLogger()
-            log.error(f"Movie {rental.get_movie()} has unrecognized priceCode {rental.get_movie().get_price_code()}")
-        
-        return amount
