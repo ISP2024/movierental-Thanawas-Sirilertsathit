@@ -56,7 +56,18 @@ class RentalTest(unittest.TestCase):
         self.assertEqual(price, 0)  # No price should be calculated for unrecognized code
         mock_logger.error.assert_called_once()
 
-    @unittest.skip("Add this test of rental points when you add it to Rental.")
-    def test_rental_points(self):
-        """Test for frequent renter points."""
-        self.fail("Add this test of frequent renter points.")
+    def test_rental_points_new_release(self):
+        """Test frequent renter points for new release movies."""
+        rental = Rental(self.new_movie, 5)
+        self.assertEqual(rental.rental_points(), 5)  # New release earns 1 point per day rented
+
+    def test_rental_points_regular_movie(self):
+        """Test frequent renter points for regular movies."""
+        rental = Rental(self.regular_movie, 3)
+        self.assertEqual(rental.rental_points(), 1)  # Regular movie earns 1 point
+
+    def test_rental_points_children_movie(self):
+        """Test frequent renter points for children's movies."""
+        rental = Rental(self.children_movie, 4)
+        self.assertEqual(rental.rental_points(), 1)  # Children's movie earns 1 point
+        
