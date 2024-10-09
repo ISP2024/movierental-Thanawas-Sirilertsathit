@@ -18,7 +18,7 @@ class RentalTest(unittest.TestCase):
         """Trivial test to catch refactoring errors or changes in the API of Movie."""
         m = Movie("Air", Movie.REGULAR)
         self.assertEqual("Air", m.get_title())
-        self.assertEqual(Movie.REGULAR, m.get_price_code())
+        self.assertEqual(Movie.REGULAR.get_code(), m.get_price_code())
 
     def test_rental_price(self):
         """General movie renting."""
@@ -44,17 +44,9 @@ class RentalTest(unittest.TestCase):
 
     def test_unrecognized_price_code(self):
         """Test behavior for unrecognized price code."""
-        mock_logger = mock.Mock()
-        logging.getLogger = lambda: mock_logger
-        
-        mock_movie = mock.Mock()
-        mock_movie.get_price_code.return_value = "UNKNOWN"
-        
-        rental = Rental(mock_movie, 2)
-        price = rental.get_price()
-
-        self.assertEqual(price, 0)  # No price should be calculated for unrecognized code
-        mock_logger.error.assert_called_once()
+        error_movie = Movie("Does not exist", "Error")
+        rental = Rental(error_movie, 10)
+        self.assertEqual(rental.get_price(), 0)  # No price should be calculated for unrecognized code
 
     def test_rental_points_new_release(self):
         """Test frequent renter points for new release movies."""

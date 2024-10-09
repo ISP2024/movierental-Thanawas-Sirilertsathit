@@ -1,23 +1,27 @@
-class Movie:
-    """
-    A movie available for rent.
-    """
-    # The types of movies (price_code). 
-    REGULAR = 0
-    NEW_RELEASE = 1
-    CHILDRENS = 2
-    
-    def __init__(self, title, price_code):
-        # Initialize a new movie. 
-        self.title = title
-        self.price_code = price_code
+from pricing import *
 
-    def get_price_code(self):
-        # get the price code
-        return self.price_code
-    
+class Movie:
+    REGULAR = RegularPriceStrategy()
+    CHILDRENS = ChildrensPriceStrategy()
+    NEW_RELEASE = NewReleasePriceStrategy()
+
+    def __init__(self, title : str, price_strategy : PriceStrategy):
+        self.title = title
+        if not isinstance(price_strategy, PriceStrategy):
+            self.price_strategy = NoPriceStrategy()
+        else:
+            self.price_strategy = price_strategy
+
     def get_title(self):
         return self.title
-    
-    def __str__(self):
-        return self.title
+
+    def get_price(self, days_rented):
+        """Delegate price calculation to the price strategy."""
+        return self.price_strategy.get_price(days_rented)
+
+    def get_rental_points(self, days_rented):
+        """Delegate rental points calculation to the price strategy."""
+        return self.price_strategy.get_rental_points(days_rented)
+
+    def get_price_code(self):
+        return self.price_strategy.get_code()
