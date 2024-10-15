@@ -18,7 +18,7 @@ class Rental:
         """
         self.movie = movie
         self.days_rented = days_rented
-        self.price_code = movie.get_price_code()
+        self.pricing = movie.price_strategy
 
     def get_movie(self):
         """Return movie object."""
@@ -30,9 +30,9 @@ class Rental:
 
     def get_price(self):
         """Delegates price calculation to the movie's price strategy."""
-        return self.price_code.get_price(self.days_rented)
+        return self.pricing.get_price(self.days_rented)
 
     def rental_points(self):
         """Delegates rental points calculation to the movie's price strategy."""
-        return self.price_code.get_rental_points(self.days_rented)
+        return self.pricing.get_rental_points(self.days_rented)
 
