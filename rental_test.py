@@ -4,21 +4,23 @@ from unittest import mock
 from rental import Rental
 from movie import Movie
 import logging
+from pricing import *
 
 
 class RentalTest(unittest.TestCase):
     
     def setUp(self):
         """Set up test environment by creating movie instances."""
-        self.new_movie = Movie("Dune: Part Two", Movie.NEW_RELEASE)
-        self.regular_movie = Movie("Air", Movie.REGULAR)
-        self.children_movie = Movie("Frozen", Movie.CHILDRENS)
+        self.new_movie = Movie("Dune: Part Two", 2020, ["Action"], Movie.NEW_RELEASE)
+        self.regular_movie = Movie("Air", 2021, ["Action"],Movie.REGULAR)
+        self.children_movie = Movie("Frozen", 2012, ["Fantasy"],Movie.CHILDRENS)
 
     def test_movie_attributes(self):
         """Trivial test to catch refactoring errors or changes in the API of Movie."""
-        m = Movie("Air", Movie.REGULAR)
-        self.assertEqual("Air", m.get_title())
-        self.assertEqual(Movie.REGULAR.get_code(), m.get_price_code())
+        m = Movie("Air", 2021, ["Action"], Movie.REGULAR)
+        rental = Rental(m, 10)
+        self.assertEqual("Air (2021)", str(m))
+        self.assertEqual(Movie.REGULAR.get_code(), rental.get_price_code())
 
     def test_rental_price(self):
         """General movie renting."""
@@ -44,7 +46,7 @@ class RentalTest(unittest.TestCase):
 
     def test_unrecognized_price_code(self):
         """Test behavior for unrecognized price code."""
-        error_movie = Movie("Does not exist", "Error")
+        error_movie = Movie("Does not exist", 2021, ["None"], Movie.NOPRICE)
         rental = Rental(error_movie, 10)
         self.assertEqual(rental.get_price(), 0)  # No price should be calculated for unrecognized code
 

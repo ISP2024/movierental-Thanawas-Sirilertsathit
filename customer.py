@@ -42,7 +42,7 @@ class Customer:
         for rental in self.rentals:
             # compute the frequent renter points based on movie price code
             statement += rental_fmt.format(
-                            rental.get_movie().get_title(), 
+                            str(rental.get_movie()), 
                             rental.get_days_rented(), 
                             rental.get_price())
         

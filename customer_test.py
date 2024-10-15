@@ -14,9 +14,9 @@ class CustomerTest(unittest.TestCase):
         movies = list of some movies.
         """
         self.c = Customer("Movie Mogul")
-        self.new_movie = Movie("Mulan", Movie.NEW_RELEASE)
-        self.regular_movie = Movie("CitizenFour", Movie.REGULAR)
-        self.childrens_movie = Movie("Frozen", Movie.CHILDRENS)
+        self.new_movie = Movie("Mulan", 2011, ["Action"], Movie.NEW_RELEASE)
+        self.regular_movie = Movie("CitizenFour", 2013, ["Civilization"], Movie.REGULAR)
+        self.childrens_movie = Movie("Frozen", 2012 , ["Fantasy"], Movie.CHILDRENS)
     
     def test_compute_total_charge(self):
         """Test total charge for a collection of rentals."""
