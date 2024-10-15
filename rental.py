@@ -36,3 +36,6 @@ class Rental:
         """Delegates rental points calculation to the movie's price strategy."""
         return self.pricing.get_rental_points(self.days_rented)
 
+    def get_price_code(self):
+        """Return price code."""
+        return self.pricing.get_code()
