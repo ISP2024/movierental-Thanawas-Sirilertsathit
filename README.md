@@ -17,5 +17,7 @@ Before and after each refactoring you should **run the unit tests**.
 
 See [Resources](https://cpske.github.io/ISP/assignment/movierental/movierental-part1#resources) in the assignment description.
 
+## Rationale
+
 2.1. The code symptom is Feature Envy. Some fields moved to another class so it should also move to another class as well.
 2.2. Single Responsibility Principle because Movie handle only movie detail stuff but Rental handle only price and point logic.
