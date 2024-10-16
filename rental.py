@@ -1,5 +1,6 @@
-import logging
 from movie import Movie
+from pricing import *
+from datetime import datetime
 
 class Rental:
     """
@@ -10,15 +11,26 @@ class Rental:
     that the movie was rented and returned, from which the
     rental period is calculated.
     For simplicity of this application, only days_rented is recorded.
-    """
-    
-    def __init__(self, movie : Movie, days_rented : int): 
+    """ 
+    REGULAR = RegularPriceStrategy()
+    CHILDRENS = ChildrensPriceStrategy()
+    NEW_RELEASE = NewReleasePriceStrategy()
+    NOPRICE = NoPriceStrategy()
+    def __init__(self, movie : Movie, days_rented : int, price_strategy : PriceStrategy = None): 
         """Initialize a new movie rental object for
         a movie with a known rental period (days_rented).
         """
         self.movie = movie
         self.days_rented = days_rented
-        self.pricing = movie.price_strategy
+        if isinstance(price_strategy, PriceStrategy):
+            self.pricing = price_strategy
+        else:
+            if self.movie.year == datetime.now().year:
+                self.pricing = NewReleasePriceStrategy()
+            elif "Child" in self.movie.genre:
+                self.pricing = ChildrensPriceStrategy()
+            else:
+                self.pricing = RegularPriceStrategy()
 
     def get_movie(self):
         """Return movie object."""
@@ -39,3 +51,9 @@ class Rental:
     def get_price_code(self):
         """Return price code."""
         return self.pricing.get_code()
+    
+    def get_price_for_movie(self):
+        """Return price strategy."""
+        return self.pricing
+
+print(datetime.now().year)

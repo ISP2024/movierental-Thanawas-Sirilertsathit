@@ -1,4 +1,4 @@
-title,year,genres,price_strategy
-Mulan,1998,Action|Adventure,REGULAR
-Mulan,2020,Action|Adventure|Drama,CHILDREN
-Frozen,2013,Animation|Family,CHILDREN
+title,year,genres
+Mulan,1998,Action|Adventure
+Mulan,2020,Action|Adventure|Drama
+Frozen,2013,Animation|Family

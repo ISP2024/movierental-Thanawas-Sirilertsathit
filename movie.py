@@ -7,11 +7,6 @@ class Movie:
     title: str
     year: int
     genre: Collection[str]
-    price_strategy: PriceStrategy    
-    REGULAR = RegularPriceStrategy()
-    CHILDRENS = ChildrensPriceStrategy()
-    NEW_RELEASE = NewReleasePriceStrategy()
-    NOPRICE = NoPriceStrategy()
 
     def __str__(self) -> str:
         """Return the string representation of the movie as 'Title (Year)'."""
