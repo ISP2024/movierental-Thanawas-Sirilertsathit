@@ -16,21 +16,18 @@ class Rental:
     CHILDRENS = ChildrensPriceStrategy()
     NEW_RELEASE = NewReleasePriceStrategy()
     NOPRICE = NoPriceStrategy()
-    def __init__(self, movie : Movie, days_rented : int, price_strategy : PriceStrategy = None): 
+    def __init__(self, movie : Movie, days_rented : int): 
         """Initialize a new movie rental object for
         a movie with a known rental period (days_rented).
         """
         self.movie = movie
         self.days_rented = days_rented
-        if isinstance(price_strategy, PriceStrategy):
-            self.pricing = price_strategy
+        if self.movie.year == datetime.now().year:
+            self.pricing = NewReleasePriceStrategy()
+        elif "Child" in self.movie.genre or "Children" in self.movie.genre:
+            self.pricing = ChildrensPriceStrategy()
         else:
-            if self.movie.year == datetime.now().year:
-                self.pricing = NewReleasePriceStrategy()
-            elif "Child" in self.movie.genre:
-                self.pricing = ChildrensPriceStrategy()
-            else:
-                self.pricing = RegularPriceStrategy()
+            self.pricing = RegularPriceStrategy()
 
     def get_movie(self):
         """Return movie object."""
